@@ -1,0 +1,38 @@
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.ALL;
+USE IEEE.STD_LOGIC_ARITH.ALL;
+USE IEEE.STD_LOGIC_UNSIGNED.ALL;
+
+---- Uncomment the following library declaration if instantiating
+---- any Xilinx primitives in this code
+--library UNISIM;
+--use UNISIM.VComponents.all; 
+
+ENTITY D4to7 IS
+	PORT (
+		q : IN STD_LOGIC_VECTOR (3 DOWNTO 0);
+		seg : OUT STD_LOGIC_VECTOR (6 DOWNTO 0));
+END D4to7;
+
+ARCHITECTURE Behavioral OF D4to7 IS
+
+BEGIN
+	Seg <= "0000001" WHEN q = "0000" ELSE
+		"1001111" WHEN q = "0001" ELSE
+		"0010010" WHEN q = "0010" ELSE
+		"0000110" WHEN q = "0011" ELSE
+		"1001100" WHEN q = "0100" ELSE
+		"0100100" WHEN q = "0101" ELSE
+		"0100000" WHEN q = "0110" ELSE
+		"0001111" WHEN q = "0111" ELSE
+		"0000000" WHEN q = "1000" ELSE
+		"0000100" WHEN q = "1001" ELSE
+		"0001000" WHEN q = "1010" ELSE
+		"1100000" WHEN q = "1011" ELSE
+		"0110001" WHEN q = "1100" ELSE
+		"1000010" WHEN q = "1101" ELSE
+		"0110000" WHEN q = "1110" ELSE
+		"0111000" WHEN q = "1111" ELSE
+		"1111111";
+
+END Behavioral;
