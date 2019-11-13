@@ -77,7 +77,12 @@ BEGIN
 
         elsif iClock1x'event and iClock1x = '1' then
 
-            
+            if iEnableTxdBuffer = '0' then
+
+                iTxdBuffer <= '0' & DataIn;
+                iEnableTxdBuffer <= '1';
+
+            end if;
 
         end if;
 
