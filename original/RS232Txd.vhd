@@ -82,6 +82,12 @@ BEGIN
                 iTxdBuffer <= '0' & DataIn;
                 iEnableTxdBuffer <= '1';
 
+            elsif iEnableShift = '1' then
+                
+                Txd <= iTxdBuffer(8);
+                iTxdBuffer <= iTxdBuffer(7 downto 0) & '0';
+                iNoBitsSent <= iNoBitsSent + '1';
+
             end if;
 
         end if;
@@ -95,6 +101,44 @@ BEGIN
 
         iReset <= '0';
 
+        case presState is
+
+            when stIdle =>
+
+                if iClock1xEnable = '1' then
+
+                    nextState <= stData;
+
+                else
+
+                    nextState <= stIdle;
+
+                end if;
+
+            when stData =>
+
+                if iNoBitsSent = "1000" then
+
+                    iEnableShift <= '0';
+                    nextState <= stStop;
+
+                else
+                    
+                    iEnableShift <= '1';
+                    nextState <= stData;
+
+                end if;
+
+            when stStop =>
+                    
+                nextState <= stTxdComplete;
+                iReset <= '1';
+
+            when stTxdComplete =>
+
+                nextState <= stIdle;
+
+        end case;
 
     end process;
 
